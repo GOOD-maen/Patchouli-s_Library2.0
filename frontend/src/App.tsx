@@ -7,8 +7,6 @@ import { Search , Bell ,User, Sun ,UserRoundPlus ,KeyRound ,LogOut } from 'lucid
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from './stores/useAuthStore';
 import { getFullImageUrl } from './utils/imageUtils';
-import CloudCityVideo from '@/assets/videos/background/CloudCity.mp4';
-import Tost from './pages/components/Toast.tsx';
 import Toast from './pages/components/Toast.tsx';
 
 function ChangeShowPageButton({ 
@@ -348,9 +346,7 @@ function App() {
         {/* 顶部浮框sticky(ED) */}
         {/* 切换内容Show */}
         <div className="ChangeContent">
-          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
-        <source src={CloudCityVideo} type="video/mp4" />
-      </video>
+
           <Outlet />
         </div>
         {/* 切换内容Show(ED) */}

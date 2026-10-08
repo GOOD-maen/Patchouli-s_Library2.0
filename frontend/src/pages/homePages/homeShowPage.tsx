@@ -5,6 +5,7 @@ import PostCard from '../components/postCard';
 import { useEffect, useState } from 'react';
 import { getFullImageUrl } from '../../utils/imageUtils';
 import { useNavigate } from 'react-router-dom';
+import BackgroundVideo from '@/assets/videos/background/snow.mp4';
 
 
 // 后端返回的文章结构（包含作者对象）
@@ -29,8 +30,8 @@ function BlankFillingLayer() {
   return (
     <motion.div
       className="blankFillingOutside"
-      initial={{ height: '95%' }}
-      animate={{ height: 'calc(85% - 80px)' }}
+      initial={{ height: '750px' }}
+      animate={{ height: '600px' }}
       transition={{
         delay: 1.5,
         duration: 0.5,
@@ -137,8 +138,9 @@ function homeShowPage() {
 
   return (
     <div className="homeShowPage inset_shadow">
-      
-      <div className="w-full h-[60px]"></div>
+      <video autoPlay loop muted playsInline className="fixed inset-0 w-full h-full object-cover z-0">
+        <source src={BackgroundVideo} type="video/mp4" />
+      </video>
       <div className="content w-full relative z-2">
         <BlankFillingLayer />
         <div className="main-outside-box">

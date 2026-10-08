@@ -458,7 +458,7 @@ box-shadow: -2px 2px 2px 1px rgba(26, 26, 26, 0.6);
 /* 切换内容Show */
 .ChangeContent{
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 
 }
 /* 切换内容Show */
@@ -468,15 +468,16 @@ box-shadow: -2px 2px 2px 1px rgba(26, 26, 26, 0.6);
 .bottom{
     width: 100%;
     height: 200px;
+    position: relative; 
     z-index: 10 ;
-    background: linear-gradient(45deg, rgba(0,0,0,0.3) , #fff, #fff, #fff); 
+    background: #fff; 
+    padding-top: 10px;
     .bottom-top{
       width: 100%;
       height: 60px;
       .loge-box{
         width: 320px;
         height: 50px;
-        margin-top: 5px;
         margin-left: 5px;
       }
     }
