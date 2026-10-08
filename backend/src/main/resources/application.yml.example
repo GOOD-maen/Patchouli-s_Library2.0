@@ -1,0 +1,60 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+      enabled: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/PersonalWebsiteLibrary?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: your_db_username
+    password: your_db_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: your_email@qq.com
+    password: your_email_auth_code
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+
+weather:
+  api:
+    key: your_weather_api_key
+    url: https://your-weather-api-url
+
+file:
+  upload-dir: uploads
+
+logging:
+  level:
+    com.mmc.collection: DEBUG
+    org.hibernate.SQL: WARN
+    org.hibernate.type: WARN
+
+jwt:
+  secret: your_jwt_secret_here
+  access-expiration: 1800000
+  refresh-expiration: 604800000
+
+app:
+  default:
+    avatar: "/uploads/images/avatars/default_avatar.png"
+    background: "/uploads/images/userBackground/default_background.jpg"

@@ -1,0 +1,296 @@
+.AuthMainPage{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    min-height: 100vh;
+    background: rgb(255, 255, 255);
+
+    .bottomFloor{
+        position: absolute;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        .image{
+            background-image: url('../../assets/images/background/LoginBackground.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 45%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            .paster1 , .paster2 {
+                position: absolute;
+                height: 20px;
+                width: 180px;
+                background: linear-gradient(0deg, rgba(29, 27, 135, 0.7) ,rgba(33, 31, 123, 0.9), rgba(33, 31, 123, 0.9), rgba(29, 27, 163, 0.7) ); 
+                z-index: 3;
+            }
+
+            .paster1{
+                bottom: 50px;
+                left: -40px; 
+                transform: rotate(50deg);
+            }
+            .paster2{
+                bottom: 50px;
+                right: -40px; 
+                transform: rotate(310deg);
+            }
+        }
+        .blank{
+            width: 55%;
+            height: 100%;
+            background: rgb(227, 237, 252);
+            min-width: 800px;
+            display: flex;
+
+
+            .paper{
+                position: absolute;
+            }
+        }
+        
+
+    }
+    .contentBox{
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        .top{
+            width: 100%;
+            height: 60px;
+            background: rgb(234, 243, 255);
+            display: flex;
+            justify-content: space-between;
+
+            .left-content{
+                margin-top: -10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .right-content{
+                display: flex;
+                height: 100%;
+                align-items: center;
+                justify-content: center;
+                width: 150px;
+                color: rgba(0, 0, 0, 0.8);
+                font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                .text{
+                    transition: all 0.2s ease;
+                    cursor: pointer;
+                }
+                .text:hover{
+                    color: rgba(13, 50, 255, 0.9);
+                    text-shadow: 0 0 4px rgba(26, 76, 255, 0.2);
+
+                }
+            }
+        }
+
+        .bottom{
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            .left{
+                width: 50%;
+            }
+            .right {
+                width: 50%;
+                min-width: 750px;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .paper-stack {
+  position: relative;
+  width: 400px;
+  margin: 0 auto;
+  transition: transform 0.25s ease;
+}
+.paper-stack:hover {
+  transform: translateY(-5px);
+}
+
+.paper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+  transition: transform 0.25s ease;
+}
+.paper-1 { transform: rotate(-4deg) translateY(-4px); z-index: 1; }
+.paper-2 { transform: rotate(2deg) translateY(-2px); z-index: 2; }
+.paper-3 { transform: rotate(0deg); z-index: 3; }
+.paper-stack:hover .paper-1 { transform: rotate(-6deg) translateY(-8px); }
+.paper-stack:hover .paper-2 { transform: rotate(4deg) translateY(-4px); }
+
+/* 表单容器 */
+.form-container {
+  position: relative;
+  z-index: 10;
+  background: rgba(255,255,255,0.96);
+  border-radius: 24px;
+  padding: 28px 24px;
+  backdrop-filter: blur(2px);
+}
+            }
+        }
+    }
+
+
+/* 表单内部通用样式 */
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 24px;
+  color: #111827;
+
+  
+  .error-banner {
+    background-color: #fee2e2;
+    color: #dc2626;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    text-align: center;
+  }
+}
+.input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+.input-group input {
+  width: 100%;
+  padding: 12px 12px;
+  border: 1px solid #ccc;
+  border-radius: 40px;
+  font-size: 14px;
+  background: white;
+}
+.input-group input.error { border-color: #E04848; }
+.error-msg {
+  color: #E04848;
+  font-size: 12px;
+  position: absolute;
+  bottom: -18px;
+  left: 12px;
+}
+.password-group {
+  position: relative;
+}
+.eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+.link-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  cursor: pointer;
+  font-size: inherit;
+}
+.link-btn:hover { text-decoration: underline; }
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border: none;
+  border-radius: 40px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+.extra-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+/* 验证码组布局 */
+.verification-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.verification-group input {
+  flex: 1;
+}
+.send-code-btn {
+  background-color: #07f3b4;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-family: 'squareChinese';
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.send-code-btn:active {
+  transform: scale(0.96);
+}
+.send-code-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 抖动动画 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+
+/*阴影复用*/
+.classic_shadow {
+  box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.1), 0 -2px 10px 8px rgba(0, 0, 0, 0.06);
+}
+
+.little_shadow {
+  box-shadow: 2px 3px 0 1px rgba(0, 0, 0, 0.2),2px -5px 5px 0px rgba(0, 0, 0, 0.1), 0 -2px 5px 0px rgba(0, 0, 0, 0.06);
+}
+
+.top_shadow {
+  box-shadow: 0 -8px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.bottom_shadow {
+  box-shadow: 0 4px 10px 5px rgba(57, 57, 57, 0.2), 0 2px 8px -1px rgba(0, 0, 0, 0.1);
+}
+.inset_shadow {
+  box-shadow: inset 2px 4px 15px 10px rgba(0, 0, 0, 0.4), inset 0 -2px 15px 12px rgba(0, 0, 0, 0.1);
+}
+
+/*阴影复用(ED)*/
+}   

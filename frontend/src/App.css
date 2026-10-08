@@ -1,0 +1,519 @@
+/*总框*/
+.all{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+.content{
+    position: relative; 
+    z-index: 1; 
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.content::-webkit-scrollbar {
+    width: 0px;
+}
+
+
+/*总框(ED)*/
+/*顶部栏*/
+
+.top{
+    position: sticky;
+    top: 0;
+    height: 60px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    margin-bottom: -60px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+
+
+    .left{
+      display: flex;
+      .logo-wrapper {
+      width: 320px;        
+      height: 60px;        
+      flex-shrink: 0;     
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    }
+    .right{
+      display: flex;
+      align-items: center;
+    }
+
+
+/* 顶部切换页面按钮 */
+
+.change-showPage-button{
+
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 100%;
+  margin-right: 20px;
+  transition: all 0.2s ease;
+  font-family: 'squareChinese';
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.change-showPage-button:hover{
+  color:#dbe9ff;
+  cursor: pointer;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.change-showPage-button::before{
+  content: '';
+  position: absolute;
+  height: 0px;
+  width: 100%;
+  background-color:#2d34ad;
+  top: -15px;
+  transition: height 0.3s ease ,top 0.3s;
+}
+
+.change-showPage-button:hover::before{
+  top: 0px;
+  height: 12px;
+}
+
+.change-showPage-button::after{
+  content: '';
+  position: absolute;
+  height: 0px;
+  width: 100%;
+  background-color:#2d34ad;
+  bottom: 0px;
+  transition: height 0.3s ease,bottom 0.3s;
+}
+
+.change-showPage-button:hover::after{
+  height: 6px;
+}
+
+/* 顶部切换页面按钮(ED) */
+
+/*小图标按钮*/
+.little-button-SAU{
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+  .icon{
+    width: 18px;
+    height: 18px;
+    stroke: rgba(255, 255, 255, 0.7);
+  }
+
+  .user-card{
+    position: absolute;
+    right: calc(50% - 50px);
+    bottom: 0;
+    transform: translateX(-50%), translateY(-100%) ;
+    top: calc(-100% + 10px);
+    
+  }
+
+    .isLogin {
+      margin-top: 30px;
+      width: 260px;
+      min-height: 330px;
+      background: rgba(30, 30, 40, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3);
+      cursor: default;
+      transition: all 0.2s ease;
+
+      /* 背景图区域 */
+      .user-card-bg {
+        height: 100px;
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+        background-color: #2a2a3a;
+      }
+
+      /* 内容区 */
+      .contentBox {
+        padding: 16px 20px 20px;
+        position: relative;
+      }
+
+      /* 头像外层（负 margin 使头像跨到背景图下方） */
+      .avatar-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: -40px;
+        margin-bottom: 12px;
+      }
+
+      .avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.9);
+        background-color: #e0e0e0;
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 用户名 */
+      .username {
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 4px;
+        font-family: 'squareChinese', sans-serif;
+        word-break: break-word;
+      }
+
+      /* UUID */
+      .uuid {
+        font-size: 11px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+      }
+
+      /* 签名 */
+      .signature {
+        font-size: 13px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 18px;
+        padding: 0 8px;
+        word-break: break-word;
+        line-height: 1.4;
+      }
+
+      /* 按钮区域 */
+      .action-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .user-center-btn,
+      .logout-btn {
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-family: 'squareChinese', sans-serif;
+        font-weight: 400;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .user-center-btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        backdrop-filter: blur(2px);
+      }
+      .user-center-btn:hover {
+        background: rgba(255, 255, 255, 0.35);
+        transform: scale(1.02);
+      }
+
+      .logout-btn {
+        background: rgba(220, 38, 38, 0.7);
+        color: white;
+      }
+      .logout-btn:hover {
+        background: rgba(220, 38, 38, 0.9);
+        transform: scale(1.02);
+      }
+    }
+  .isNotLogin{
+    width: 250px;
+    height: 140px;
+    z-index: 20;
+    padding-top: 35px;
+    cursor: default;
+    .text{
+      margin-top: 5px;
+      font-family: 'squareChinese';
+      transform: scaleX(1.1);
+      font-size: 13px;
+      color: rgba(241, 241, 241, 0.6);
+
+    }
+    .contentBox{
+      width: 100%;
+      height: 95px;
+      padding-top: 15px;
+      border-radius: 5px;
+      background: rgba(53, 53, 53, 0.7);
+      box-shadow: -10px -8px 20px 6px rgba(87, 87, 87, 0.1), 5px 10px 20px 8px rgba(209, 209, 209, 0.06);
+        .OffLineButton{
+          width: 50px;
+          height: 50px;
+          background: rgba(255, 255, 255, 0.7);
+          margin: 0px 12px;
+        }
+                  
+        .ShowLoginButton{
+          background: linear-gradient(
+            12deg, rgba(18, 5, 142, 0.6),
+            rgba(12, 36, 170, 0.6) ,
+            rgba(13, 43, 211, 0.7) ,
+            rgba(13, 43, 211, 0.6),
+            rgba(13, 43, 211, 0.6));   
+          border-radius: 5px;
+          box-shadow: -2px 2px 2px 1px rgba(4, 10, 87, 0.6);
+          padding: 3px;
+          .insideBox{
+            width: 100%;
+            height: 100%;
+            border-radius: 2px;
+            border: 2px rgba(255, 255, 255, 0.5) dashed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .icon{
+              stroke: rgba(204, 211, 234, 0.8);
+              stroke-width: 1.5px;
+              width: 25px;
+              height: 25px;
+            }
+          }                   
+        }
+        .ShowRegisterButton{
+background: linear-gradient(12deg, 
+  rgba(255, 255, 255, 0.8), 
+  rgba(240, 240, 240, 0.8), 
+  rgba(220, 220, 220, 0.9), 
+  rgba(220, 220, 220, 0.8), 
+  rgba(220, 220, 220, 0.8));
+border-radius: 5px;
+box-shadow: -2px 2px 2px 1px rgba(28, 28, 28, 0.6);
+          padding: 3px;
+          .insideBox{
+            width: 100%;
+            height: 100%;
+            border-radius: 2px;
+            border: 2px rgba(38, 38, 38, 0.5) dashed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .icon{
+              stroke: rgba(114, 114, 114, 0.8);
+              stroke-width: 1.7px;
+              width: 25px;
+              height: 25px;
+            }
+          }  
+        }
+        .ShowForgetPasswordButton{
+          background: linear-gradient(12deg, 
+  rgba(80, 80, 80, 0.6), 
+  rgba(100, 100, 100, 0.6), 
+  rgba(120, 120, 120, 0.7), 
+  rgba(120, 120, 120, 0.6), 
+  rgba(120, 120, 120, 0.6));
+border-radius: 5px;
+box-shadow: -2px 2px 2px 1px rgba(26, 26, 26, 0.6);
+          padding: 3px;
+          .insideBox{
+            width: 100%;
+            height: 100%;
+            border-radius: 2px;
+            border: 2px rgba(224, 224, 224, 0.5) dashed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .icon{
+              stroke: rgba(205, 204, 204, 0.8);
+              stroke-width: 1.7px;
+              width: 25px;
+              height: 25px;
+            }
+          }  
+        }
+.ShowLoginButton,
+.ShowRegisterButton,
+.ShowForgetPasswordButton {
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.ShowLoginButton:hover,
+.ShowRegisterButton:hover,
+.ShowForgetPasswordButton:hover {
+  transform: translateY(1px);
+  box-shadow: -2px 4px 6px 1px rgba(0, 0, 0, 0.3);
+}
+.ShowLoginButton:active,
+.ShowRegisterButton:active,
+.ShowForgetPasswordButton:active {
+  transform: translateY(2px);
+}
+    }
+  }
+}
+
+
+.little-button-MAS{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+  background: rgba(134, 134, 134, 0.3);
+  border-radius: 100%;
+  .icon{
+    width: 17px;
+    height: 17px;
+    stroke: rgba(255, 255, 255, 0.7);
+  }
+}
+/*小图标按钮(ED)*/
+/*前往编辑页面按钮*/
+.goto-manage-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 80px;
+  margin-left: 20px;
+  margin-right: 50px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  .btn-inner {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 26px;
+    border-radius: 9999px;
+    border: 2px solid #3b82f6; 
+    color: #fef3c7;  
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .btn-text {
+    display: flex;
+    font-family: 'squareChinese', sans-serif;
+    font-weight: 100;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    position: absolute;
+  }
+
+  .text-publish {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .text-omg {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  /* hover 效果 */
+  &:hover {
+    .text-publish {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    .text-omg {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+}
+/*前往编辑页面按钮(ED)*/
+
+
+
+/*顶部栏(ED)*/
+
+/* 切换内容Show */
+.ChangeContent{
+    width: 100%;
+    height: 100vh;
+
+}
+/* 切换内容Show */
+
+
+/*底部框*/
+.bottom{
+    width: 100%;
+    height: 200px;
+    z-index: 10 ;
+    background: linear-gradient(45deg, rgba(0,0,0,0.3) , #fff, #fff, #fff); 
+    .bottom-top{
+      width: 100%;
+      height: 60px;
+      .loge-box{
+        width: 320px;
+        height: 50px;
+        margin-top: 5px;
+        margin-left: 5px;
+      }
+    }
+}
+/*底部框(ED)*/
+
+/*阴影复用*/
+
+.classic_shadow {
+  box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.1), 0 -2px 10px 8px rgba(0, 0, 0, 0.06);
+}
+
+.little_shadow {
+  box-shadow: 2px 3px 0 1px rgba(0, 0, 0, 0.2),2px -5px 5px 0px rgba(0, 0, 0, 0.1), 0 -2px 5px 0px rgba(0, 0, 0, 0.06);
+}
+
+.top_shadow {
+  box-shadow: 0 -8px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.bottom_shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/*阴影复用(ED)*/
+/* 字体规定 */
+
+@font-face {
+  font-family: 'connectionEnglish';
+  src: url('./assets/fonts/Bitcount_Single/BitcountSingle-VariableFont.ttf') format('truetype');/*像素英语 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'squareChinese';
+  src: url('./assets/fonts/WDXL_Lubrifont_SC/WDXLLubrifontSC-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+/* 字体规定(ED) */

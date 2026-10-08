@@ -1,0 +1,21 @@
+.special-loge {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.border-3 {
+  border-width: 3px;
+  border-style: solid;
+}
+
+@font-face {
+  font-family: 'connectionEnglish';
+  src: url('../../assets/fonts/Bitcount_Single/BitcountSingle-VariableFont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
