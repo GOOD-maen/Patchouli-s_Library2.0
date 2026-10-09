@@ -1,5 +1,4 @@
 import './userCenter.css'
-import redCloudVideo from '@/assets/videos/background/redCloud.mp4';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { getFullImageUrl } from '../../utils/imageUtils';
 import { useEffect, useState } from 'react';
@@ -71,18 +70,6 @@ const handleSweep = async () => {
 
     return (
         <div className='userCenter'>
-          {/* 视频背景 */}
-            <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        >
-          <source src={redCloudVideo} type="video/mp4" />
-            </video>
-          {/* 视频背景 (ED*/}
-
 
             <div className='w-full contentBox'>
                 <div className='insideContent'>

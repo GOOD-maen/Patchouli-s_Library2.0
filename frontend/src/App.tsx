@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from './stores/useAuthStore';
 import { getFullImageUrl } from './utils/imageUtils';
 import Toast from './pages/components/Toast.tsx';
+import AppBackground from './pages/components/AppBackground';
 
 function ChangeShowPageButton({ 
   target, 
@@ -282,6 +283,10 @@ return(
 function App() {
   return (
     <div className="all">
+      {/* 背景 */}
+      <AppBackground />
+      {/* 背景(ED) */}
+
       {/* 提示框 */}
       <Toast />
       {/* 提示框(ED) */}

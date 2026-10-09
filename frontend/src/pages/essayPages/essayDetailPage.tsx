@@ -8,8 +8,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { showToast } from '../components/Toast';
 import './essayDetailPage.css';
-import BackgroundVideo from '@/assets/videos/background/snow.mp4';
-
 
 interface EssayDetail {
   id: string;
@@ -328,15 +326,7 @@ function EssayDetailPage() {
 
   return (
     <div className="essay-detail-container">
-      <video
-    autoPlay
-    loop
-    muted
-    playsInline
-    className="fixed inset-0 w-full h-full object-cover -z-10"
-  >
-    <source src={BackgroundVideo} type="video/mp4" />
-  </video>
+
       <div className="total-box">
         <div className="main-box">
           <div className="left-part"></div>

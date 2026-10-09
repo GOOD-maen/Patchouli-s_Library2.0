@@ -1,5 +1,4 @@
-import './createPage.css';
-import redCloudVideo from '@/assets/videos/background/redCloud.mp4';
+import './managePage.css';
 import { getFullImageUrl } from '../../utils/imageUtils';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useState, useRef, useEffect } from 'react';
@@ -224,15 +223,7 @@ function createPage() {
 
   return (
     <div className="createPage">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source src={redCloudVideo} type="video/mp4" />
-      </video>
+
 
       <div className="content-box">
         <div className="inside-content">

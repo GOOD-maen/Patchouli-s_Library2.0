@@ -11,7 +11,7 @@ import UserCenter from './pages/userPages/userCenter';
 import UserInformation from './pages/userPages/components/userInformation';
 import UserWorks from './pages/userPages/components/userWorks';
 import UserStars from './pages/userPages/components/userStars';
-import CreatePage from './pages/createPages/createPage';
+import CreatePage from './pages/managePages/managePage';
 import EssayDetailPage from './pages/essayPages/essayDetailPage'
 import ModelPage from './pages/modelPages/modelPage';
 
