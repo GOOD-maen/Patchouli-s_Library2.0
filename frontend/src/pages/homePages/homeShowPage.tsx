@@ -112,7 +112,7 @@ function homeShowPage() {
       );
     }
     return (
-      <div className="content-part" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', overflowY: 'auto', height: '100%' }}>
+      <div className="content-part" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', overflowY: 'auto'}}>
         {essays.map((essay) => {
           const images = extractImages(essay.content);
           return (
