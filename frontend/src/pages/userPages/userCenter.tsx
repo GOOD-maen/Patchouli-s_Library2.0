@@ -35,21 +35,21 @@ const handleSweep = async () => {
 };
 
   const getActiveFromPath = (pathname: string) => {
-    if (pathname.includes('/userworks')) return 'works';
-    if (pathname.includes('/userstars')) return 'stars';
-    if (pathname.includes('/userInformation')) return 'info';
+    if (pathname.includes('/userWorks')) return 'works';
+    if (pathname.includes('/userSettings')) return 'settings';
+    if (pathname.includes('/userHome')) return 'info';
     return 'info';
   };
 
-  const [activeButton, setActiveButton] = useState<'info' | 'works' | 'stars' >(
+  const [activeButton, setActiveButton] = useState<'info' | 'works' | 'settings' >(
     () => getActiveFromPath(location.pathname)
   );
 
   useEffect(() => {
     let targetPath = '';
-    if (activeButton === 'info') targetPath = '/userCenter/userInformation';
-    else if (activeButton === 'works') targetPath = '/userCenter/userworks';
-    else if (activeButton === 'stars') targetPath = '/userCenter/userstars';
+    if (activeButton === 'info') targetPath = '/userCenter/userHome';
+    else if (activeButton === 'works') targetPath = '/userCenter/userWorks';
+    else if (activeButton === 'settings') targetPath = '/userCenter/userSettings';
     else if (activeButton === 'sweep') console.log("111");
 
     if (location.pathname !== targetPath) {
@@ -64,7 +64,7 @@ const handleSweep = async () => {
     }
   }, [location.pathname]);
 
-  const handleButtonClick = (button: 'info' | 'works' | 'stars' ) => {
+  const handleButtonClick = (button: 'info' | 'works' | 'settings' ) => {
     setActiveButton(button);
   };
 
@@ -144,10 +144,10 @@ const handleSweep = async () => {
                                             的 
                                           </div>
                                           <div className='text'>
-                                            信 
+                                            主
                                           </div>
                                           <div className='text'>
-                                            息
+                                            页
                                           </div>                                          
                                 </div>
                                 
@@ -177,13 +177,13 @@ const handleSweep = async () => {
                               <div className='button-box'>
                                 <div className='rope'></div>
                                 
-                                <div className={`user-stars ${activeButton === 'stars' ? 'active' : ''} `}
-              onClick={() => handleButtonClick('stars')}>
+                                <div className={`user-settings ${activeButton === 'settings' ? 'active' : ''} `}
+              onClick={() => handleButtonClick('settings')}>
                                           <div className='text '>
-                                            收
+                                            设
                                           </div> 
                                           <div className='text'>
-                                            藏
+                                            置
                                           </div> 
                                 </div>
                               </div>
@@ -257,7 +257,7 @@ const handleSweep = async () => {
                             <div className='border-box'>
                                 <div className='inside-showBox inset_shadow'>
 
-                                  <div className={`label ${activeButton === 'works' ? 'works' : ''}  ${activeButton === 'info' ? 'info' : ''} ${activeButton === 'stars' ? 'stars' : ''}`}>
+                                  <div className={`label ${activeButton === 'works' ? 'works' : ''}  ${activeButton === 'info' ? 'info' : ''} ${activeButton === 'settings' ? 'settings' : ''}`}>
                                           {activeButton === 'works' && 
                                           <div className="works-label">
                                             <div className='text'>WORKS</div>
@@ -270,9 +270,9 @@ const handleSweep = async () => {
 
                                           </div>}
 
-                                          {activeButton === 'stars' && 
-                                          <div className="stars-label">
-                                            <div className='text'>STARS</div>
+                                          {activeButton === 'settings' && 
+                                          <div className="settings-label">
+                                            <div className='text'>SETTING</div>
 
                                           </div>}
                                   </div>

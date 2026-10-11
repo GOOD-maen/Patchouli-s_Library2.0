@@ -8,10 +8,10 @@ import Login from './pages/auth/LoginForm';
 import Register from './pages/auth/RegisterForm'
 import ForgetPassword from './pages/auth/ForgetPasswordForm'
 import UserCenter from './pages/userPages/userCenter';
-import UserInformation from './pages/userPages/components/userInformation';
+import UserSettings from './pages/userPages/components/userSettings';
 import UserWorks from './pages/userPages/components/userWorks';
-import UserStars from './pages/userPages/components/userStars';
-import CreatePage from './pages/managePages/managePage';
+import UserHome from './pages/userPages/components/userHome';
+import ManagePage from './pages/managePages/managePage';
 import EssayDetailPage from './pages/essayPages/essayDetailPage'
 import ModelPage from './pages/modelPages/modelPage';
 
@@ -24,11 +24,11 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<App />}>
           <Route index element={<HomeShowPage />} />  
           <Route path="userCenter" element={<UserCenter />} >
-            <Route path="userInformation" element={<UserInformation/>}/>
+            <Route path="userSettings" element={<UserSettings/>}/>
             <Route path="userWorks" element={<UserWorks/>}/>
-            <Route path="userStars" element={<UserStars/>}/>
+            <Route path="userHome" element={<UserHome/>}/>
           </Route>
-          <Route path='/createPage' element={<CreatePage />}>
+          <Route path='/managePage' element={<ManagePage />}>
           </Route>
           <Route path="/essay/:id" element={<EssayDetailPage />} />
         </Route>

@@ -1,4 +1,4 @@
-.createPage {
+.managePage {
   width: 100%;
   height: 100vh;
 
@@ -512,31 +512,31 @@
 
 /* ========== 修复 Markdown 编辑器滚动冲突 ========== */
 /* 以下规则覆盖原有样式，请勿删除 */
-.createPage .paper-box .markdown-outside-box {
+.managePage .paper-box .markdown-outside-box {
   overflow: hidden;
 }
-.createPage .w-md-editor {
+.managePage .w-md-editor {
   display: flex;
   flex-direction: column;
 }
-.createPage .w-md-editor-content {
+.managePage .w-md-editor-content {
   display: flex;
   flex-direction: row;
   flex: 1;
   min-height: 0;
 }
-.createPage .w-md-editor-text {
+.managePage .w-md-editor-text {
   flex: 1;
   overflow-y: auto !important;
   height: auto !important;
 }
-.createPage .w-md-editor-text-input,
-.createPage .w-md-editor-text textarea {
+.managePage .w-md-editor-text-input,
+.managePage .w-md-editor-text textarea {
   height: 100% !important;
   overflow-y: hidden !important;
   min-height: 100% !important;
 }
-.createPage .w-md-editor-preview {
+.managePage .w-md-editor-preview {
   overflow-y: auto !important;
   height: auto !important;
 }

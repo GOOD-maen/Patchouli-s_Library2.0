@@ -221,7 +221,7 @@ const handleDelete = async (essayId: string, e: React.MouseEvent) => {
   };
 
   const handleEdit = (essayId: string) => {
-    window.location.href = `/createPage?id=${essayId}`;
+    window.location.href = `/managePage?id=${essayId}`;
   };
 
   const toggleMenu = (e: React.MouseEvent, essayId: string) => {

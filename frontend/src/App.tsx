@@ -100,12 +100,12 @@ function SunnyButton({
 function GoToManagePageButton({ }: { goTo: () => void }) {
   const navigate = useNavigate();
 
-  const goToCreatePage = () => {
-    navigate('/createPage');
+  const goToManagePage = () => {
+    navigate('/managePage');
   };
 
   return (
-    <button className="goto-manage-btn" onClick={goToCreatePage}>
+    <button className="goto-manage-btn" onClick={goToManagePage}>
       <div className="btn-inner">
         <div className="btn-text text-publish">发 布</div>
         <div className="btn-text text-omg">OMG!</div>

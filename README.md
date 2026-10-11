@@ -41,7 +41,7 @@ personal-website/
 │       ├── pages/               # 页面
 │       │   ├── auth/            # 登录/注册/找回密码
 │       │   ├── components/      # 全局公共组件
-│       │   ├── createPages/     # 创作页
+│       │   ├── managePages/     # 创作页
 │       │   ├── essayPages/      # 文章详情页
 │       │   ├── homePages/       # 首页
 │       │   ├── modelPages/      # AI 对话页（含 Live2D）

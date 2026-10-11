@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuthStore } from '../../../stores/useAuthStore';
 import { getFullImageUrl } from '../../../utils/imageUtils';
-import './userInformation.css';
+import './userSettings.css';
 import ImageCropperModal from '../../components/imageCropperModal';
 import { authFetch } from '../../../utils/request';
 
@@ -20,7 +20,7 @@ const uploadImage = async (file: File, type: 'avatar' | 'background', token: str
   return data.fileUrl;
 };
 
-function UserInformation() {
+function UserSettings() {
   const { user, accessToken, updateUser } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({
@@ -315,4 +315,4 @@ function UserInformation() {
   );
 }
 
-export default UserInformation;
+export default UserSettings;

@@ -11,7 +11,7 @@ import '@uiw/react-markdown-preview/markdown.css';
 import { useSearchParams } from 'react-router-dom';
 import { authFetch } from '../../utils/request';
 
-function createPage() {
+function managePage() {
   const [searchParams] = useSearchParams();
   const essayId = searchParams.get('id');
   const { user, accessToken } = useAuthStore();
@@ -206,7 +206,7 @@ function createPage() {
       alert(status === 'published' ? '发布成功！' : '草稿已保存');
       if (!essayId) {
         const newEssay = await response.json();
-        window.location.href = `/createPage?id=${newEssay.id}`;
+        window.location.href = `/managePage?id=${newEssay.id}`;
       } else {
 
         window.location.reload();
@@ -222,7 +222,7 @@ function createPage() {
   const handleSaveDraft = () => saveArticle('draft');
 
   return (
-    <div className="createPage">
+    <div className="managePage">
 
 
       <div className="content-box">
@@ -378,4 +378,4 @@ function createPage() {
   );
 }
 
-export default createPage;
+export default managePage;
