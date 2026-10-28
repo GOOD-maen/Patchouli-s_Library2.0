@@ -9,15 +9,16 @@ const uploadImage = async (file: File, type: 'avatar' | 'background', token: str
   if (!token) throw new Error('未登录');
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('type', type);
-  const res = await authFetch('/api/user/uploads', {
+  const endpoint = type === 'avatar' ? '/api/uploads/avatar' : '/api/uploads/background';
+  const res = await authFetch(endpoint, {
     method: 'POST',
     body: formData,
     autoJson: false, 
   });
   if (!res.ok) throw new Error('上传失败');
   const data = await res.json();
-  return data.fileUrl;
+  if (!data?.url) throw new Error(data?.message || '后端未返回图片地址');
+  return data.url;
 };
 
 function UserSettings() {

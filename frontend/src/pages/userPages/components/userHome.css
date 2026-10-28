@@ -1,0 +1,30 @@
+.userHome {
+    /*滚轮作用处*/
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow-y: auto;
+  padding: 30px 10px 20px 10px;/*上右下左*/
+
+  /* ===== 滚轮样式 ===== */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(60, 60, 60, 0.2);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(25, 25, 25, 0.7);
+    transition: background 0.2s ease;
+  }
+
+  .content {
+    height: auto;
+    min-height: 100%;
+    width: 100%;
+    border: 2px solid rgba(30, 30, 30, 0.8);
+  }
+}

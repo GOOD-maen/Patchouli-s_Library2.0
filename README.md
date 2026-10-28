@@ -100,7 +100,22 @@ mvn spring-boot:run
 
 后端运行在 `http://localhost:8080`
 
-### 4. 启动前端
+### 4. 上传配置
+
+上传文件默认保存在 `backend/uploads/`，通过 `/uploads/**` 访问。相关配置：
+
+```yaml
+file:
+  upload-dir: uploads   # 上传根目录
+  max-size: 5MB         # 单文件上限
+  temp-ttl: 24h         # 草稿临时文件保留时长
+  allow-svg: false      # 默认拒绝 SVG，避免同源脚本注入
+```
+
+上传接口统一为 `POST /api/uploads/temp|avatar|background`，响应形如
+`{ "success": true, "url": "/uploads/temp/xxx.png" }`。
+
+### 5. 启动前端
 
 ```bash
 cd frontend

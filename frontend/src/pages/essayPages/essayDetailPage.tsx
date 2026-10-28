@@ -9,6 +9,9 @@ import { useAuthStore } from '../../stores/useAuthStore';
 import { showToast } from '../components/Toast';
 import './essayDetailPage.css';
 
+const transformAssetUrl = (url: string) =>
+  url.startsWith('/uploads/') ? getFullImageUrl(url) : url;
+
 interface EssayDetail {
   id: string;
   title: string;
@@ -142,23 +145,6 @@ function EssayDetailPage() {
     };
     fetchEssay();
   }, [id]);
-
-  const baseUrl = 'http://localhost:8080';
-  const processImageUrls = (content: string) => {
-    if (!content) return '';
-    return content.replace(
-      /!\[.*?\]\(\/uploads\/images\/markdownImages\/[^)]+\)/g,
-      (match) => {
-        const urlMatch = match.match(/\(\/uploads\/images\/markdownImages\/[^)]+\)/);
-        if (urlMatch) {
-          const relativePath = urlMatch[0].slice(1, -1);
-          const absoluteUrl = `${baseUrl}${relativePath}`;
-          return match.replace(/\(\/uploads\/images\/markdownImages\/[^)]+\)/, `(${absoluteUrl})`);
-        }
-        return match;
-      }
-    );
-  };
 
   const fetchComments = async () => {
     if (!essay) return;
@@ -322,7 +308,6 @@ function EssayDetailPage() {
   if (loading) return <div className="essay-detail-loading">加载中...</div>;
   if (error) return <div className="essay-detail-error">加载失败: {error}</div>;
   if (!essay) return <div className="essay-detail-notfound">文章不存在</div>;
-  const processedContent = processImageUrls(essay.content);
 
   return (
     <div className="essay-detail-container">
@@ -349,7 +334,7 @@ function EssayDetailPage() {
                 </div>
               )}
               <div className="article-content markdown-body">
-                <ReactMarkdown>{processedContent}</ReactMarkdown>
+                <ReactMarkdown urlTransform={transformAssetUrl}>{essay.content}</ReactMarkdown>
               </div>
             </div>
           </div>

@@ -1,5 +1,7 @@
 package com.mmc.collection.modules.essay.service.impl;
 
+import com.mmc.collection.common.storage.FileStorageService;
+import com.mmc.collection.common.storage.StorageScope;
 import com.mmc.collection.modules.essay.dao.EssayDAO;
 import com.mmc.collection.modules.essay.dao.association.UserEssayDAO;
 import com.mmc.collection.modules.essay.dao.association.UserEssayLikeDAO;
@@ -10,12 +12,10 @@ import com.mmc.collection.modules.essay.service.EssayService;
 import com.mmc.collection.modules.user.dao.UserDAO;
 import com.mmc.collection.modules.user.entity.UserDO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,9 +33,7 @@ public class EssayServiceImpl implements EssayService {
     private final UserDAO userDAO;
     private final UserEssayDAO userEssayDAO;
     private final UserEssayLikeDAO userEssayLikeDAO;
-
-    @Value("${file.upload-dir:uploads}")
-    private String baseUploadDir;
+    private final FileStorageService fileStorageService;
 
     @Override
     public List<EssayDO> getAllEssay() {
@@ -141,28 +139,14 @@ public class EssayServiceImpl implements EssayService {
     }
 
     private void deleteCoverImageIfNeeded(String coverUrl) {
-        if (coverUrl == null || coverUrl.trim().isEmpty()) {
+        if (coverUrl == null || coverUrl.trim().isEmpty() || isDefaultCover(coverUrl)) {
             return;
         }
-        if (isDefaultCover(coverUrl)) {
-            return;
-        }
-        try {
-            String filePath = "uploads/" + coverUrl.trim();
-            File file = new File(filePath);
-            if (file.exists()) {
-                if (file.delete()) {
-                    System.out.println("✅ 封面文件删除成功");
-                } else {
-                    System.err.println("❌ 文件删除失败（可能被占用或无权限）");
-                }
-            } else {
-                System.out.println("⚠️  文件不存在，可能已被删除");
-            }
-        } catch (SecurityException e) {
-            System.err.println("🔒 权限错误: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("💥 删除异常: " + e.getMessage());
+        boolean deleted = fileStorageService.deleteByUrl(coverUrl, StorageScope.COVER);
+        if (deleted) {
+            System.out.println("✅ 封面文件删除成功");
+        } else {
+            System.out.println("⚠️  封面文件不存在或不在封面目录，跳过删除");
         }
     }
 

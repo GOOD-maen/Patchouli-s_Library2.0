@@ -1,5 +1,7 @@
 package com.mmc.collection.modules.essay.controller;
 
+import com.mmc.collection.common.storage.FileStorageService;
+import com.mmc.collection.common.storage.StorageScope;
 import com.mmc.collection.modules.essay.dto.response.EssayWithAuthorDTO;
 import com.mmc.collection.modules.essay.entity.EssayDO;
 import com.mmc.collection.modules.essay.entity.association.UserEssayDO;
@@ -7,7 +9,6 @@ import com.mmc.collection.modules.essay.service.EssayService;
 import com.mmc.collection.modules.essay.service.association.UserEssayService;
 import com.mmc.collection.modules.user.dao.UserDAO;
 import com.mmc.collection.modules.user.entity.UserDO;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
@@ -15,11 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,13 +24,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@CrossOrigin(
-        origins = "*",
-        methods = {RequestMethod.GET, RequestMethod.POST,
-                RequestMethod.PUT, RequestMethod.DELETE,
-                RequestMethod.OPTIONS, RequestMethod.PATCH, RequestMethod.HEAD},
-        allowedHeaders = "*"
-)
 @RestController
 @RequestMapping("/api/essay")
 @RequiredArgsConstructor
@@ -43,6 +32,7 @@ public class EssayController {
     private final EssayService essayService;
     private final UserDAO userDAO;
     private final UserEssayService userEssayService;
+    private final FileStorageService fileStorageService;
 
     /**
      * 获取所有文章
@@ -114,12 +104,9 @@ public class EssayController {
      * 创建新文章
      */
     @PostMapping
-    public EssayDO createEssay(@RequestBody EssayDO essayDO, HttpServletRequest request) {
-        String baseUrl = getBaseUrl(request);
-        String processedContent = processAndMoveImages(essayDO.getContent(), baseUrl);
-        essayDO.setContent(processedContent);
-        String processedCover = moveCoverToPermanent(essayDO.getCoverUrl(), baseUrl);
-        essayDO.setCoverUrl(processedCover);
+    public EssayDO createEssay(@RequestBody EssayDO essayDO) {
+        essayDO.setContent(promoteTempImages(essayDO.getContent()));
+        essayDO.setCoverUrl(fileStorageService.promoteTemp(essayDO.getCoverUrl(), StorageScope.COVER));
         return essayService.createEssay(essayDO);
     }
 
@@ -127,12 +114,9 @@ public class EssayController {
      * 更新文章
      */
     @PutMapping("/{id}")
-    public EssayDO updateEssay(@PathVariable String id, @RequestBody EssayDO essayDO, HttpServletRequest request) {
-        String baseUrl = getBaseUrl(request);
-        String processedContent = processAndMoveImages(essayDO.getContent(), baseUrl);
-        essayDO.setContent(processedContent);
-        String processedCover = moveCoverToPermanent(essayDO.getCoverUrl(), baseUrl);
-        essayDO.setCoverUrl(processedCover);
+    public EssayDO updateEssay(@PathVariable String id, @RequestBody EssayDO essayDO) {
+        essayDO.setContent(promoteTempImages(essayDO.getContent()));
+        essayDO.setCoverUrl(fileStorageService.promoteTemp(essayDO.getCoverUrl(), StorageScope.COVER));
         return essayService.updateEssay(id, essayDO);
     }
 
@@ -205,106 +189,25 @@ public class EssayController {
 
     // ================== 辅助方法 ==================
 
-    private String getBaseUrl(HttpServletRequest request) {
-        String scheme = request.getScheme();
-        String serverName = request.getServerName();
-        int serverPort = request.getServerPort();
-        return scheme + "://" + serverName + ":" + serverPort;
-    }
+    private static final Pattern TEMP_IMAGE_PATTERN =
+            Pattern.compile("!\\[([^\\]]*)\\]\\((?:https?://[^/\\s)]+)?(/uploads/temp/[^)\\s]+)\\)");
 
-    private String processAndMoveImages(String content, String baseUrl) {
-        if (content == null || content.isEmpty()) return content;
-        Pattern pattern = Pattern.compile("!\\[.*?\\]\\((.*?)\\)");
-        Matcher matcher = pattern.matcher(content);
-        StringBuffer sb = new StringBuffer();
+    /**
+     * 把正文里所有指向 /uploads/temp/ 的图片转存到正式目录，并替换为根相对 URL。
+     * 同时兼容绝对地址（http://host/uploads/temp/...）与相对地址。
+     */
+    private String promoteTempImages(String content) {
+        if (content == null || content.isEmpty()) {
+            return content;
+        }
+        Matcher matcher = TEMP_IMAGE_PATTERN.matcher(content);
+        StringBuffer buffer = new StringBuffer();
         while (matcher.find()) {
-            String originalUrl = matcher.group(1);
-            String newUrl = moveImageToPermanent(originalUrl, baseUrl);
-            matcher.appendReplacement(sb, "![图片](" + newUrl + ")");
+            String promoted = fileStorageService.promoteTemp(matcher.group(2), StorageScope.INLINE);
+            String replacement = "![" + matcher.group(1) + "](" + promoted + ")";
+            matcher.appendReplacement(buffer, Matcher.quoteReplacement(replacement));
         }
-        matcher.appendTail(sb);
-        return sb.toString();
-    }
-
-    private String moveImageToPermanent(String tempUrl, String baseUrl) {
-        if (tempUrl == null) return tempUrl;
-        // 兼容相对路径和绝对路径
-        if (!tempUrl.contains("/uploads/temp/")) {
-            return tempUrl;
-        }
-        // 提取 "/uploads/temp/" 之后的文件名
-        String prefix = "/uploads/temp/";
-        int idx = tempUrl.indexOf(prefix);
-        if (idx == -1) return tempUrl;
-        String fileName = tempUrl.substring(idx + prefix.length());
-        // 去除可能的查询参数或锚点
-        int queryIdx = fileName.indexOf('?');
-        if (queryIdx != -1) fileName = fileName.substring(0, queryIdx);
-        int anchorIdx = fileName.indexOf('#');
-        if (anchorIdx != -1) fileName = fileName.substring(0, anchorIdx);
-
-        String projectRoot = System.getProperty("user.dir");
-        File tempFile = new File(projectRoot + "/uploads/temp/" + fileName);
-        if (!tempFile.exists()) {
-            // 文件不存在，记录日志或抛异常
-            System.err.println("临时文件不存在: " + tempFile.getAbsolutePath());
-            return tempUrl;
-        }
-        String permanentDirPath = projectRoot + "/uploads/images/markdownImages/";
-        File permanentDir = new File(permanentDirPath);
-        if (!permanentDir.exists()) permanentDir.mkdirs();
-        File permanentFile = new File(permanentDirPath + fileName);
-
-        if (tempFile.renameTo(permanentFile)) {
-            return baseUrl + "/uploads/images/markdownImages/" + fileName;
-        } else {
-            try {
-                Files.copy(tempFile.toPath(), permanentFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.delete(tempFile.toPath());
-                return baseUrl + "/uploads/images/markdownImages/" + fileName;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return tempUrl;
-            }
-        }
-    }
-
-    private String moveCoverToPermanent(String tempUrl, String baseUrl) {
-        if (tempUrl == null) return tempUrl;
-        if (!tempUrl.contains("/uploads/temp/")) {
-            return tempUrl;
-        }
-        String prefix = "/uploads/temp/";
-        int idx = tempUrl.indexOf(prefix);
-        if (idx == -1) return tempUrl;
-        String fileName = tempUrl.substring(idx + prefix.length());
-        // 去除参数
-        int queryIdx = fileName.indexOf('?');
-        if (queryIdx != -1) fileName = fileName.substring(0, queryIdx);
-        int anchorIdx = fileName.indexOf('#');
-        if (anchorIdx != -1) fileName = fileName.substring(0, anchorIdx);
-
-        String projectRoot = System.getProperty("user.dir");
-        File tempFile = new File(projectRoot + "/uploads/temp/" + fileName);
-        if (!tempFile.exists()) {
-            return tempUrl;
-        }
-        String targetDir = projectRoot + "/uploads/images/covers/";
-        File targetFolder = new File(targetDir);
-        if (!targetFolder.exists()) targetFolder.mkdirs();
-        File targetFile = new File(targetDir + fileName);
-
-        if (tempFile.renameTo(targetFile)) {
-            return baseUrl + "/uploads/images/covers/" + fileName;
-        } else {
-            try {
-                Files.copy(tempFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.delete(tempFile.toPath());
-                return baseUrl + "/uploads/images/covers/" + fileName;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return tempUrl;
-            }
-        }
+        matcher.appendTail(buffer);
+        return buffer.toString();
     }
 }

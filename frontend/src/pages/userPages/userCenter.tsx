@@ -228,17 +228,6 @@ const handleSweep = async () => {
                                       <div className='h6'>
                                           <div className='h7  inset_shadow'></div>
                                           <div className='h8'></div>
-
-                                      </div>
-                                      <div className='h6'>
-                                          <div className='h7  inset_shadow'></div>
-                                          <div className='h8'></div>
-
-                                      </div>
-                                      <div className='h6'>
-                                          <div className='h7  inset_shadow'></div>
-                                          <div className='h8'></div>
-
                                       </div>
                                       <div className='h6  inset_shadow'>
                                       </div>
@@ -266,7 +255,7 @@ const handleSweep = async () => {
 
                                           {activeButton === 'info' && 
                                           <div className="info-label">
-                                            <div className='text'>INFO</div>
+                                            <div className='text'>HOME</div>
 
                                           </div>}
 

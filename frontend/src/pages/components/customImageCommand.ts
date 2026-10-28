@@ -1,62 +1,26 @@
 // customImageCommand.ts
-import { ICommand, TextAreaTextApi } from '@uiw/react-md-editor';
-import { commands } from '@uiw/react-md-editor';
+import { ICommand, TextAreaTextApi, commands } from '@uiw/react-md-editor';
+import { authFetch } from '../../utils/request';
+import { getFullImageUrl } from '../../utils/imageUtils';
 
 /**
- * 从 localStorage 获取认证 token
- * 根据你的 useAuthStore 的 persist 配置，token 存储在 'auth-storage' 的 state.accessToken 中
- */
-function getAuthToken(): string | null {
-  try {
-    const authStorage = localStorage.getItem('auth-storage');
-    if (authStorage) {
-      const parsed = JSON.parse(authStorage);
-      return parsed.state?.accessToken || null;
-    }
-  } catch (e) {
-    console.error('读取 token 失败', e);
-  }
-  return null;
-}
-
-/**
- * 上传图片到服务器
- * @param file 图片文件
- * @returns 图片访问 URL
+ * 上传图片到统一存储接口，返回根相对 URL（例如 /uploads/temp/xxx.png）
  */
 async function uploadImageToServer(file: File): Promise<string> {
   const formData = new FormData();
-  formData.append('image', file);
+  formData.append('file', file);
 
-  const token = getAuthToken();
-  const headers: HeadersInit = {};
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  const response = await fetch('http://localhost:8080/api/upload/temp-image', {
+  const response = await authFetch('/api/uploads/temp', {
     method: 'POST',
-    headers,
     body: formData,
+    autoJson: false,
   });
 
-  if (!response.ok) {
-    // 尝试读取错误信息（可能是 HTML 或 JSON）
-    const errorText = await response.text();
-    throw new Error(`上传失败 (${response.status}): ${errorText}`);
+  const data = await response.json().catch(() => null);
+  if (!response.ok || !data?.success || !data?.url) {
+    throw new Error(data?.message || `上传失败 (${response.status})`);
   }
-
-  // 确保响应是 JSON
-  const contentType = response.headers.get('content-type');
-  if (!contentType || !contentType.includes('application/json')) {
-    throw new Error('服务器返回非 JSON 格式');
-  }
-
-  const data = await response.json();
-  if (!data.url) {
-    throw new Error('后端未返回图片 URL');
-  }
-  return data.url;
+  return data.url as string;
 }
 
 /**
@@ -65,7 +29,7 @@ async function uploadImageToServer(file: File): Promise<string> {
 export const customImageCommand: ICommand = {
   // 保留原生按钮的图标、标题等
   ...commands.image,
-  execute: async (state, api: TextAreaTextApi) => {
+  execute: async (_state, api: TextAreaTextApi) => {
     // 创建隐藏的文件选择器
     const input = document.createElement('input');
     input.type = 'file';
@@ -88,12 +52,12 @@ export const customImageCommand: ICommand = {
 
       try {
         const imageUrl = await uploadImageToServer(file);
-        const fullUrl = `http://localhost:8080${imageUrl}`;
-        const markdownText = `![图片](${fullUrl})`;
+        // 编辑器预览需要绝对地址；保存时 managePage 会统一转回根相对路径
+        const markdownText = `![图片](${getFullImageUrl(imageUrl)})`;
         api.replaceSelection(markdownText);
       } catch (error) {
         console.error('图片上传失败:', error);
-        alert('图片上传失败，请检查网络或登录状态');
+        alert(error instanceof Error ? error.message : '图片上传失败，请检查网络或登录状态');
       }
     };
 

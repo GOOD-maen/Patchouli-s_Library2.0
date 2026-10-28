@@ -44,12 +44,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(token)) {
             try {
-                // ✅ 改动点 1：从 token 中解析 uuid
                 String uuid = jwtUtil.getUuidFromToken(token);
 
-                // ✅ 改动点 2：用 uuid 验证 token
                 if (uuid != null && jwtUtil.validateToken(token, uuid)) {
-                    // ✅ 改动点 3：把 uuid 存入 SecurityContext
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(uuid, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
                     authentication.setDetails(new org.springframework.security.web.authentication.WebAuthenticationDetailsSource().buildDetails(request));

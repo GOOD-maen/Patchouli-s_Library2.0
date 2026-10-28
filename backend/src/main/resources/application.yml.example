@@ -42,6 +42,9 @@ weather:
 
 file:
   upload-dir: uploads
+  max-size: 5MB
+  temp-ttl: 24h
+  allow-svg: false
 
 logging:
   level:

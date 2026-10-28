@@ -11,6 +11,9 @@ import '@uiw/react-markdown-preview/markdown.css';
 import { useSearchParams } from 'react-router-dom';
 import { authFetch } from '../../utils/request';
 
+const transformImageUrl = (url: string) =>
+  url.startsWith('/uploads/') ? getFullImageUrl(url) : url;
+
 function managePage() {
   const [searchParams] = useSearchParams();
   const essayId = searchParams.get('id');
@@ -100,15 +103,16 @@ function managePage() {
   const uploadCoverImage = async (file: File) => {
     setIsUploadingCover(true);
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append('file', file);
     try {
-      const res = await authFetch('/api/upload/temp-image', {
+      const res = await authFetch('/api/uploads/temp', {
         method: 'POST',
         body: formData,
         autoJson: false,
       });
       if (!res.ok) throw new Error('上传失败');
       const data = await res.json();
+      if (!data?.url) throw new Error(data?.message || '后端未返回图片地址');
       setCoverUrl(data.url);
     } catch (err) {
       console.error('封面上传失败', err);
@@ -173,8 +177,8 @@ function managePage() {
 
     setIsSubmitting(true);
     const contentForBackend = markdownContent.replace(
-    /!\[.*?\]\(http:\/\/localhost:8080(\/uploads\/temp\/[^)]+)\)/g,
-    '![图片]($1)'
+      /\]\((?:https?:\/\/[^/)\s]+)?(\/uploads\/temp\/[^)\s]+)\)/g,
+      ']($1)'
     );
     try {
       const payload = {
@@ -213,6 +217,7 @@ function managePage() {
       }
     } catch (error) {
       console.error('保存失败:', error);
+      alert(error instanceof Error ? error.message : '保存失败，请重试');
     } finally {
       setIsSubmitting(false);
     }
@@ -249,6 +254,7 @@ function managePage() {
                       onChange={(val) => setMarkdownContent(val || '')}
                       height="100%"
                       preview="live"
+                      previewOptions={{ urlTransform: transformImageUrl }}
                       visibleDragbar={false}
                       commands={customCommands}
                       extraCommands={getExtraCommands()}

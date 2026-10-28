@@ -4,7 +4,9 @@ import './userHome.css';
 
 function userHome() {
     return (
-        <div>
+        <div className='userHome'>
+            <div className='content'>
+            </div>
         </div>
     )
 }
