@@ -5,7 +5,7 @@
     position: relative;
     min-height: 100vh;
     overflow: hidden;
-    .app-background-video {
+.app-background-video {
   position: fixed;
   inset: 0;
   width: 100%;
@@ -28,7 +28,6 @@
     width: 0px;
 }
 
-
 /*总框(ED)*/
 /*顶部栏*/
 
@@ -42,7 +41,6 @@
     z-index: 10;
     display: flex;
     justify-content: space-between;
-
 
     .left{
       display: flex;
@@ -164,7 +162,7 @@
         position: relative;
       }
 
-      /* 头像外层（负 margin 使头像跨到背景图下方） */
+      /* 头像外层 */
       .avatar-wrapper {
         display: flex;
         justify-content: center;
