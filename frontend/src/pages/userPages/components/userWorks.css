@@ -1,4 +1,4 @@
-
+﻿
 .user-works-outside{
   width: 100%;
   height: 100%;
@@ -523,16 +523,6 @@
                 pointer-events: auto;
               }
 
-              @keyframes menuFadeIn {
-                from {
-                  opacity: 0;
-                  transform: scale(0.9);
-                }
-                to {
-                  opacity: 1;
-                  transform: scale(1);
-                }
-              }
 
               .menu-popup .menu-item {
                 white-space: nowrap;
@@ -624,3 +614,15 @@
   background: #7c5423;
   border-radius: 4px;
 }
+
+/* ---- 动画关键帧（顶层，不能嵌套在规则内） ---- */
+              @keyframes menuFadeIn {
+                from {
+                  opacity: 0;
+                  transform: scale(0.9);
+                }
+                to {
+                  opacity: 1;
+                  transform: scale(1);
+                }
+              }

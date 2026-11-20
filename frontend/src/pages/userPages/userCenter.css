@@ -1,4 +1,4 @@
-.userCenter {
+﻿.userCenter {
   width: 100%;
   height: 100vh;
   position: relative;
@@ -288,11 +288,6 @@
                 transform: translateY(12px);
               }
 
-              @keyframes shakeDown {
-                0% { transform: translateY(0); }
-                50% { transform: translateY(4px); }
-                100% { transform: translateY(0); }
-              }
             }
 
             .button-box.sweep {
@@ -576,3 +571,10 @@
   }
   /*阴影复用(ED)*/
 }
+
+/* ---- 动画关键帧（顶层，不能嵌套在规则内） ---- */
+              @keyframes shakeDown {
+                0% { transform: translateY(0); }
+                50% { transform: translateY(4px); }
+                100% { transform: translateY(0); }
+              }

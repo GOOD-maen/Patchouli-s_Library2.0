@@ -1,7 +1,14 @@
 // src/utils/request.ts
 import { useAuthStore } from '../stores/useAuthStore';
 
-export const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+/**
+ * API 根地址。
+ * 默认为空字符串 = 同源：
+ *   - 开发环境由 vite.config.ts 的 proxy 转发到 localhost:8080
+ *   - 生产环境由 Nginx 反向代理到后端
+ * 需要指向独立后端时，用 VITE_API_BASE_URL 覆盖。
+ */
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 interface RequestOptions extends RequestInit {
   skipAuthRedirect?: boolean;

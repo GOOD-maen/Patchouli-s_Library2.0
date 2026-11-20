@@ -1,3 +1,5 @@
+import { BASE_URL } from '../../../utils/request';
+
 export async function generateSpeech(
   text: string,
   voice: string = 'zh-CN-XiaoxiaoNeural',
@@ -10,7 +12,7 @@ export async function generateSpeech(
     throw new Error('文本为空');
   }
 
-  const response = await fetch('http://localhost:8080/api/tts', {
+  const response = await fetch(`${BASE_URL}/api/tts`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text, voice, rate, volume }),

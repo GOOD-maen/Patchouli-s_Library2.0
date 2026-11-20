@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { getFullImageUrl } from '../../utils/imageUtils';
+import { BASE_URL } from '../../utils/request';
 import { Calendar, Eye, Heart,  Star, BookOpen, ThumbsUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../../stores/useAuthStore';
@@ -67,7 +68,7 @@ function EssayDetailPage() {
     if (sessionStorage.getItem(storageKey)) return;
     const increaseView = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/essay/${id}/view`, { method: 'POST' });
+        const res = await fetch(`${BASE_URL}/api/essay/${id}/view`, { method: 'POST' });
         if (res.ok) {
           const data = await res.json();
           setViewsCount(data.views);
@@ -83,7 +84,7 @@ function EssayDetailPage() {
   const fetchLikeStatus = async () => {
     if (!token) return;
     try {
-      const res = await fetch(`http://localhost:8080/api/essay/${id}/like-status`, {
+      const res = await fetch(`${BASE_URL}/api/essay/${id}/like-status`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -102,7 +103,7 @@ function EssayDetailPage() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:8080/api/essay/${id}/like`, {
+      const res = await fetch(`${BASE_URL}/api/essay/${id}/like`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -123,14 +124,14 @@ function EssayDetailPage() {
     const fetchEssay = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:8080/api/essay/${id}`);
+        const res = await fetch(`${BASE_URL}/api/essay/${id}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         setEssay(data);
         setViewsCount(data.views);
         setLikesCount(data.likes);
         if (data.authorId) {
-          const authorRes = await fetch(`http://localhost:8080/api/user/${data.authorId}`);
+          const authorRes = await fetch(`${BASE_URL}/api/user/${data.authorId}`);
           if (authorRes.ok) {
             const authorData = await authorRes.json();
             setAuthorInfo(authorData);
@@ -150,7 +151,7 @@ function EssayDetailPage() {
     if (!essay) return;
     setLoadingComments(true);
     try {
-      const res = await fetch(`http://localhost:8080/api/comments?targetType=essay&targetId=${essay.id}`);
+      const res = await fetch(`${BASE_URL}/api/comments?targetType=essay&targetId=${essay.id}`);
       if (!res.ok) throw new Error('加载评论失败');
       const data = await res.json();
       setComments(data);
@@ -179,7 +180,7 @@ function EssayDetailPage() {
       parentId: replyTo?.id || null,
     };
     try {
-      const res = await fetch('http://localhost:8080/api/comments', {
+      const res = await fetch(`${BASE_URL}/api/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -202,7 +203,7 @@ function EssayDetailPage() {
   const deleteComment = async (commentId: number) => {
     if (!confirm('确定删除这条评论吗？')) return;
     try {
-      const res = await fetch(`http://localhost:8080/api/comments/${commentId}`, {
+      const res = await fetch(`${BASE_URL}/api/comments/${commentId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -4,6 +4,7 @@ import Calendar from '../components/calendar';
 import PostCard from '../components/postCard';
 import { useEffect, useState } from 'react';
 import { getFullImageUrl } from '../../utils/imageUtils';
+import { BASE_URL } from '../../utils/request';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -74,7 +75,7 @@ function homeShowPage() {
     const fetchEssays = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:8080/api/essay');
+        const res = await fetch(`${BASE_URL}/api/essay`);
         if (!res.ok) throw new Error('获取文章列表失败');
         const data: Essay[] = await res.json();
         setEssays(data);
