@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: 'connectionEnglish';
-  src: url('../../assets/fonts/Bitcount_Single/BitcountSingle-VariableFont.ttf') format('truetype');
+  src: url('../../assets/fonts/Bitcount_Single/BitcountSingle-subset.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }

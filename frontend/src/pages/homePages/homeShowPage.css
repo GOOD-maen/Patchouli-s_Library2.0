@@ -220,14 +220,14 @@
 
 @font-face {
   font-family: 'connectionEnglish';
-  src: url('../../assets/fonts/Bitcount_Single/BitcountSingle-VariableFont.ttf') format('truetype');/*像素英语 */
+  src: url('../../assets/fonts/Bitcount_Single/BitcountSingle-subset.woff2') format('woff2');/*像素英语 */
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'squareChinese';
-  src: url('../../assets/fonts/WDXL_Lubrifont_SC/WDXLLubrifontSC-Regular.ttf') format('truetype');
+  src: url('../../assets/fonts/WDXL_Lubrifont_SC/WDXLLubrifontSC-subset.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }

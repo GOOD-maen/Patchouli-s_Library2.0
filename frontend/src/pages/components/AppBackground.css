@@ -1,3 +1,14 @@
+/* 首屏占位：纯 CSS 渐变，0 字节请求，先给用户一个和视频色调接近的底色 */
+.app-background-placeholder {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 600px at 50% 18%, rgba(120, 160, 220, 0.18), transparent 70%),
+    linear-gradient(180deg, #0a1020 0%, #16233b 34%, #24344f 62%, #0d1524 100%);
+}
+
 .app-background-video {
   position: fixed;
   inset: 0;
@@ -6,5 +17,10 @@
   object-fit: cover;
   z-index: -1;             /* ⬅️ 在所有内容之下 */
   pointer-events: none;    /* ⬅️ 不阻挡鼠标事件 */
-  transition: opacity 0.3s ease;
+  opacity: 0;              /* ⬅️ 初始透明，等能播放了再淡入，避免黑屏闪一下 */
+  transition: opacity 0.8s ease;
+}
+
+.app-background-video.is-visible {
+  opacity: 1;
 }
