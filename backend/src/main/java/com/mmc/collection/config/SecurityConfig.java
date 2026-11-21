@@ -71,6 +71,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/weather/**", "/api/weather/forecast").permitAll()
                         .requestMatchers("/api/essay/*/view").permitAll()
                         .requestMatchers("/api/tts/**").permitAll()
+                        // 错误页必须放行：否则业务异常触发 /error 转发时会被安全链拦成 401，
+                        // 真实的 500 会被伪装成“请先登录”，排查时严重误导。
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
