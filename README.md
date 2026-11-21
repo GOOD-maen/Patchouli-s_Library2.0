@@ -1,15 +1,41 @@
 # Patchouli's Library
 
-个人网站项目，包含前端（React + Vite）和后端（Spring Boot + MySQL）。
+一个前后端完全自研的全栈内容社区：文章发布、评论互动、用户中心、AI 对话与 Live2D 角色。
+前端 React 19 + TypeScript，后端 Spring Boot 3.1 + MySQL 8，已部署在阿里云 ECS。
+
+## 🔗 在线体验
+
+- **地址**：http://8.153.98.106
+- **体验账号**：`demo` / `demo123`（可以直接登录，发文章、评论、点赞都行）
+
+> 视频背景采用延迟挂载 + CSS 渐变占位，首屏不加载视频，所以打开很快。
+
+## 📊 性能优化
+
+针对 3 Mbps 带宽的真实部署环境，把首屏从「基本打不开」优化到秒开：
+
+| 指标 | 优化前 | 优化后 | 变化 |
+|---|---|---|---|
+| 首屏传输量 | 28.2 MB | **0.35 MB** | ↓ 80 倍 |
+| DOMContentLoaded | 4.62 s | **0.146 s** | ↓ 31 倍 |
+| 最大单个资源 | 15.3 MB（视频） | 192 KB（字体） | — |
+
+手段：
+
+1. **字体子集化**：扫描源码实际字符集（735 字）裁剪字体，中文 9.85 MB TTF → 187 KB woff2，英文 335 KB → 25 KB。已固化为 npm `prebuild` 钩子（`scripts/subset-fonts.py`），带字符集哈希缓存。
+2. **路由级代码分割**：入口 JS 2087 KB → 319 KB（gzip 后 104 KB）。首屏路由保持静态导入，避免「入口 → 首屏 chunk」的加载瀑布；创作页 925 KB、AI 页 278 KB、Live2D 117 KB 全部按需加载。
+3. **视频延迟挂载**：首屏只渲染 CSS 渐变占位，800ms 后挂载 `<video>`，`preload="none"`，`canplay` 后淡入；同时尊重 `prefers-reduced-motion`，窄屏不加载。
+4. **Nginx gzip**：补齐 `gzip_types`，JS/CSS/JSON/SVG 全部压缩传输（319 KB → 104 KB）。
 
 ## 功能
 
-- 用户注册 / 登录
-- 文章编辑 / 发布 / 浏览
-- 点赞
-- 评论与回复
+- 用户注册 / 登录（JWT 双 Token：Access + Refresh，Cookie 续期）
+- 文章编辑 / 发布 / 浏览（Markdown 编辑器、图片裁剪上传）
+- 点赞、评论与嵌套回复
+- 用户中心（主页 / 作品 / 设置 / 头像与背景图）
+- 后台管理（用户封禁、站点清理）
 - Live2D 角色展示
-- AI 对话（DeepSeek API + TTS）
+- AI 对话（DeepSeek API + TTS 语音合成）
 
 ## 技术栈
 
@@ -74,9 +100,12 @@ personal-website/
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/你的用户名/personal-website.git
-cd personal-website
+git clone https://github.com/GOOD-maen/Patchouli-s_Library2.0.git
+cd Patchouli-s_Library2.0
 ```
+
+> 第一代 Vue 3 版本见 [Patchouli-s_Library](https://github.com/GOOD-maen/Patchouli-s_Library)。
+> 本项目是从 Vue 3 迁移到 React 19 + TypeScript 的重写版本。
 
 ### 2. 后端配置
 
