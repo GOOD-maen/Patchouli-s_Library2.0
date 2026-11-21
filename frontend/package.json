@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "python scripts/subset-fonts.py || echo [font] skipped",
     "build": "vite build",
+    "font:subset": "python scripts/subset-fonts.py",
     "lint": "eslint .",
     "preview": "vite preview"
   },

@@ -7,6 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# 字体子集化的缓存（内容由源码字符集决定，可随时重建）
+scripts/.font-cache.json
+scripts/.chars.txt
+
 node_modules
 dist
 dist-ssr
